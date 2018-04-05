@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <random>
+#include <map>
 
 class CaveGen {
 public:
@@ -34,7 +35,7 @@ public:
 		{
 			for (int c = 0; c < width; c++)
 			{
-				std::cout << iToChar[map[r*width + c]] << " ";
+				std::cout << iToChar(map[r*width + c]) << " ";
 			}
 			std::cout << "\n";
 		}
@@ -63,6 +64,38 @@ public:
 			}
 		}
 		std::memcpy(map, newMap, size * sizeof(int));
+	}
+	std::map<int,int> flood()
+	{
+		std::map<int, int> caves;
+		int fcount = 2;
+		for (int r = 0; r < height; r++)
+			for (int c = 0; c < width; c++)
+				if (map[r*width + c] == 1)
+				{
+					caves[fcount] = floodfill(c, r, fcount);
+					fcount++;
+				}
+		return caves;
+	}
+	int floodfill(int c, int r, int fill)
+	{
+		if (c < 0 || r < 0 || c >= width || r >= height)
+			return 0;
+		int size = 0;
+		int target = map[r*width + c];
+		if (target == fill || target == 0)
+			return 0;
+		else
+		{
+			map[r*width + c] = fill;
+			size++;
+			size += floodfill(c - 1, r, fill);
+			size += floodfill(c + 1, r, fill);
+			size += floodfill(c, r - 1, fill);
+			size += floodfill(c, r + 1, fill);
+		}
+		return size;
 	}
 private:
 	int* map;
@@ -95,5 +128,18 @@ private:
 		}
 		return count;
 	}
-	char iToChar[2] = { ' ' , '#' };
+	//char clist[26] = { 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z' };
+	std::string iToChar(int i)
+	{
+		switch (i)
+		{
+		case 1:
+			return " ";
+		case 0:
+			return "#";
+		default:
+			return std::to_string(i);
+			break;
+		}
+	}
 };
