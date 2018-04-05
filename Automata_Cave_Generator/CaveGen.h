@@ -25,6 +25,10 @@ public:
 			iterate();
 		print();
 	}
+	CaveGen()
+	{
+
+	}
 	void print() {
 		for (int r = 0; r < height; r++)
 		{
@@ -34,17 +38,6 @@ public:
 			}
 			std::cout << "\n";
 		}
-	}
-private:
-	int* map;
-	int* newMap;
-	int width, height, dLimit, bLimit;
-	int random() // return a value 1-100
-	{
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> dist(0, 99);
-		return dist(gen) + 1;
 	}
 	void iterate() {
 		const int size = width * height;
@@ -63,13 +56,24 @@ private:
 				else
 				{
 					if (nCount > bLimit)
-						newMap[r*width + c] = 0;
-					else
 						newMap[r*width + c] = 1;
+					else
+						newMap[r*width + c] = 0;
 				}
 			}
 		}
-		std::memcpy(newMap, map, size * sizeof(int));
+		std::memcpy(map, newMap, size * sizeof(int));
+	}
+private:
+	int* map;
+	int* newMap;
+	int width, height, dLimit, bLimit;
+	int random() // return a value 1-100
+	{
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<> dist(0, 99);
+		return dist(gen) + 1;
 	}
 	int getAliveNeighbors(int x, int y)
 	{
