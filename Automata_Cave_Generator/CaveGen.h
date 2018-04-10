@@ -71,7 +71,7 @@ public:
 		int fcount = 2;
 		for (int r = 0; r < height; r++)
 			for (int c = 0; c < width; c++)
-				if (map[r*width + c] == 1)
+				if (map[r*width + c] == 0)
 				{
 					caves[fcount] = floodfill(c, r, fcount);
 					fcount++;
@@ -84,7 +84,7 @@ public:
 			return 0;
 		int size = 0;
 		int target = map[r*width + c];
-		if (target == fill || target == 0)
+		if (target == fill || target == 1)
 			return 0;
 		else
 		{
@@ -133,9 +133,9 @@ private:
 	{
 		switch (i)
 		{
-		case 1:
-			return " ";
 		case 0:
+			return " ";
+		case 1:
 			return "#";
 		default:
 			return std::to_string(i);
