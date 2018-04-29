@@ -128,7 +128,6 @@ private:
 		}
 		return count;
 	}
-	//char clist[26] = { 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z' };
 	std::string iToChar(int i)
 	{
 		switch (i)
@@ -138,7 +137,7 @@ private:
 		case 0:
 			return "#";
 		default:
-			return std::to_string(i);
+			return " ";
 			break;
 		}
 	}
